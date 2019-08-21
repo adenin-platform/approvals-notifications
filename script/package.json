@@ -1,0 +1,10 @@
+{
+  "name": "script",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "dependencies": {
+    "got": "^9.6.0"
+  },
+  "devDependencies": {}
+}

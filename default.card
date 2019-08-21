@@ -1,0 +1,157 @@
+$type: card
+rules: []
+properties:
+  title:
+    type: element
+    xtype: at-carbon-card-title
+    title: title
+    xgridcols: 12
+    xstyle: 
+    xclass: 
+    actionListeners:
+      - _start
+    modelBind: 'label: title'
+  view3:
+    type: element
+    title: Liquid View 3
+    xtype: at-core-view
+    actionListeners:
+      - _all
+    modelRoot: state.model
+    view: |-
+      {% for item in items %}
+      <div class="container layout-vertical">
+      	{% if item.approved == false and item.declined == false %}
+      		<div class="layout-horizontal background-white">
+      			{% if item.avatar %}
+      				<div class="layout-start py pl">
+      					<img style="width: 60px; height: 60px; display: block; background-image: url('{{avatar}}');background-color:lightgrey;background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;;border-radius: 50%;">
+      				</div>
+      			{% endif %}
+      			<div class="layout-flex layout-vertical pl">
+      				<div class="layout-inline">
+      					<div class="font-subhead pt layout-start layout-flex-auto" style="color: #58585b;">
+      						{{item.title}}
+      					</div>  				
+      				</div>
+      				<div class="pbsm pr container layout-vertical black">
+      					{% if item.type %}
+      						<div class="font-body1" style="margin-top: 3px; margin-bottom: 3px;">
+      							{{item.type}}
+      						</div>
+      					{% endif %}
+      					{% if item.description %}
+      						{% capture bodyLength %}{{item.description | size}}{% endcapture %}
+      						{% if bodyLength < 88 %}
+      							<div class="font-caption dark-grey">
+      								{{item.description}}
+      							</div>	
+      						{% else %}
+      							<div class="font-caption dark-grey" style="cursor: pointer;" at-click-action="expandBody">
+      								{% if item.expanded == true %}
+      									<div class="layout-vertical">
+      										<div class="pbsm">
+      											{{item.description}}
+      										</div>
+      										<div class="layout-horizontal layout-end-justified">
+      											<at-carbon-icon icon="now:caret-up" class="grey approval-caret-icon"></at-carbon-icon>
+      										</div>
+      									</div>
+      								{% else %}
+      									<div class="layout-vertical">
+      										<div class="pbsm">
+      											{{item.description |  truncatewords: 8}}
+                          </div>
+      										<div class="layout-horizontal layout-end-justified">
+      											<at-carbon-icon icon="now:caret-down" class="grey approval-caret-icon"></at-carbon-icon>
+      										</div>
+      									</div>
+      								{% endif %}
+      							</div>
+      						{% endif %}
+      					{% endif %}
+      					<div class="font-button layout-horizontal ptsm">
+      						<div class="ml0 green" at-click-action="quickApprove" at-agent-action="approve" confirm-message="Do you really want to approve this request?" style="cursor:pointer">Approve</div>
+      						<div class="ml red" at-click-action="quickDecline" at-agent-action="reject" style="cursor:pointer">Decline</div>
+      					</div>
+      				</div>
+      				<div class="pt"></div>
+      			</div>
+      		</div>
+      	{% elsif item.approved == true %}
+      		<div class="psm layout-horizontal" style="background-color: #E3F2E3;">
+      			<at-carbon-icon icon="now:checkmark" class="" style="color: #43A942;"></at-carbon-icon>
+      			<div class="plsm font-caption" style="margin-top: 2px;">
+      				{{item.message}}
+      			</div>
+      		</div>
+        {% elsif item.declined == true %}
+        	<div class="psm layout-horizontal" style="background-color: #f2e2e2;">
+      			<at-carbon-icon icon="now:cancel" class="" style="color: #a84141;"></at-carbon-icon>
+      			<div class="plsm font-caption" style="margin-top: 2px;">
+      				{{item.message}}
+      			</div>
+      		</div>
+      	{% endif %}
+      </div>
+      {% endfor %}
+
+      <style>
+      .aprroval-caret-icon {
+        width: 12px;
+        height: 12px;
+      }
+      </style>
+    updateMode: 0
+  footer8:
+    type: element
+    title: Go to Approvals App
+    xtype: at-carbon-card-footer
+    href: https://approvals.cisco.com/#/inbox
+    expandable: !!bool true
+    modelBind: 'expandable: items.length > 3, href: link, label: linkLabel'
+    expandMode: 2
+$meta:
+  cardId: 537
+  preview-data: |-
+    {
+      "_action": "firstpage",
+      "_page": 1,
+      "_pageSize": 20,
+      "items": [
+        {
+          "id": 1,
+          "title": "approval 1",
+          "description": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+          "date": "2019-08-21T16:11:15.588Z",
+          "approved": false,
+          "declined": false,
+          "message": ""
+        }
+      ],
+      "title": "My Approvals",
+      "link": "https://my-approvals.app/",
+      "linkLabel": "All Approvals",
+      "actionable": true,
+      "value": 100,
+      "description": "You have 100 approvals"
+    }
+  preview-mode: live
+  preview-container: event
+  search-term: 
+  service-url: 
+  xclass: 
+  xstyle: 
+  code: |-
+    action.initialize = function(evt) {
+      
+    }
+
+    action.callback = function(evt) {
+        
+      this.fire('card-dismiss', {
+        id: evt.model._card.Id,
+        message: evt.model.message
+      });
+      
+    }

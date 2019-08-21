@@ -1,0 +1,9 @@
+{
+    "title": "Basic Card (NodeJs v9 API proxy async)",
+    "description": "Basic Card (NodeJs v9 API proxy async)",
+    "ctype": "Card",
+    "interfaces": "items",
+    "icon": "now:search",
+    "category": "orange",
+    "card": true
+}

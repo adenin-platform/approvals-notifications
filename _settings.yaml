@@ -1,0 +1,76 @@
+contentType: Card
+title: Approvals Demo
+name: approvals-demo
+CollectionModeField:
+  CollectionMode: 0
+MaxItemsField:
+  MaxItems: 3
+PriorityField:
+  Priority: 5
+StreamSource: null
+CardComponent: approvals-demo/approvals-demo-card
+StoreMetadataField:
+  description: See your pending approvals, quick approve them or open the Approvals App to manage them.
+  logourl: my-approvals/Approvals.svg
+  storehide: !!bool false
+  disableWorkplace: !!bool false
+  promotion: !!bool false
+CommonPart:
+  Owner: !!int 2
+  Container: null
+  CreatedUtc: 2019-06-21T13:43:25.2214910Z
+  PublishedUtc: 2019-07-13T08:06:02.7342667Z
+  ModifiedUtc: 2019-07-13T08:06:02.6923765Z
+  VersionCreatedUtc: 2019-07-13T08:06:02.0000000
+  VersionPublishedUtc: 2019-07-13T08:06:02.0000000
+  VersionModifiedUtc: 2019-07-13T08:06:02.0000000
+ServicePart:
+  ConnectorTypeId: !!int 0
+  ConnectorName: Script
+  ServiceName: Script
+  Url: ~/api/adenin.GateKeeper.Script
+  ServiceParameters: '{"tokens":""}'
+SearchContextPart:
+  Query: null
+  Interface: null
+CommandPart:
+  CommandType: Utterances
+  Command: |+
+    show my approvals
+
+    do I have approvals
+
+  DefaultDate: null
+  Intent: null
+  Ext: {}
+AppPart:
+  App: null
+  Url: 
+  ExtUrl: 
+  Priority: !!int 0
+  AppFaceId: !!int 0
+  Category: orange
+  Icon: now:search
+  CSSClasses: null
+  Enabled: !!bool false
+  NewWindow: !!bool false
+  UrlWithId: !!bool true
+  AvailableAppFaceRecords: null
+  HasPattern: !!bool false
+RoleViewPermissionsPart:
+  AllowedRoles:
+    - Authenticated
+  Audiences: []
+  Mandatory: False
+RecurringTaskPart:
+  Schedule: '- - - - -'
+  ActivityType: adenin.Now.Activities.CardTask.UpdateCard
+  StartDateUtc: null
+  EndDateUtc: null
+  NextOccurrenceUtc: 2019-06-24T08:22:00.0000000
+  Priority: !!int 5
+  Status: Enabled
+  NowFlag: 0
+  LastExecutionUTC: null
+  EnableWebHook: !!bool true
+  WebHookToken: 9svm4j9gkr1g5dtw79w2z

@@ -1,0 +1,8 @@
+{
+  "name": "approvals-demo - Copy",
+  "version": "0.0.1.150",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#master"
+  }
+}

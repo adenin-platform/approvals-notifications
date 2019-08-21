@@ -1,0 +1,133 @@
+$type: card
+properties:
+  view1:
+    type: element
+    title: View
+    xtype: at-core-view
+    view: |-
+      <div class="container layout-vertical">
+      	{% if approved == false and declined == false %}
+      		<div class="layout-horizontal background-white">
+      			{% if avatar %}
+      				<div class="layout-start py pl">
+      					<img style="width: 60px; height: 60px; display: block; background-image: url('{{avatar}}');background-color:lightgrey;background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;;border-radius: 50%;">
+      				</div>
+      			{% endif %}
+      			<div class="layout-flex layout-vertical pl">
+      				<div class="layout-inline">
+      					<div class="font-subhead pt layout-start layout-flex-auto" style="color: #58585b;">
+      						{{title}}
+      					</div>
+        				<div class="layout-end">
+      						<at-carbon-moment datetime="{{date}}" from-now ago class="font-caption pt pr grey"></at-carbon-moment>
+      					</div>
+      				</div>
+      				<div class="pbsm pr container layout-vertical black">
+      					{% if type %}
+      						<div class="font-body1" style="margin-top: 3px; margin-bottom: 3px;">
+      							{{type}}
+      						</div>
+      					{% endif %}
+      					{% if description %}
+      						{% capture bodyLength %}{{description | size}}{% endcapture %}
+      						{% if bodyLength < 88 %}
+      							<div class="font-caption dark-grey">
+      								{{description}}
+      							</div>	
+      						{% else %}
+      							<div class="font-caption dark-grey" style="cursor: pointer;" at-click-action="expandBody">
+      								{% if expanded == true %}
+      									<div class="layout-vertical">
+      										<div class="pbsm">
+      											{{description}}
+      										</div>
+      										<div class="layout-horizontal layout-end-justified">
+      											<at-carbon-icon icon="now:caret-up" class="grey approval-caret-icon"></at-carbon-icon>
+      										</div>
+      									</div>
+      								{% else %}
+      									<div class="layout-vertical">
+      										<div class="pbsm">
+      											{{description |  truncatewords: 8}}
+                          </div>
+      										<div class="layout-horizontal layout-end-justified">
+      											<at-carbon-icon icon="now:caret-down" class="grey approval-caret-icon"></at-carbon-icon>
+      										</div>
+      									</div>
+      								{% endif %}
+      							</div>
+      						{% endif %}
+      					{% endif %}
+      					<div class="font-button layout-horizontal ptsm">
+      						<div class="ml0 green" at-click-action="quickApprove" at-agent-action="approve" confirm-message="Do you really want to approve this request?" style="cursor:pointer">Approve</div>
+      						<div class="ml red" at-click-action="quickDecline" at-agent-action="reject" style="cursor:pointer">Decline</div>
+      					</div>
+      				</div>
+      				<div class="bb pt"></div>
+      			</div>
+      		</div>
+      	{% elsif approved == true %}
+      		<div class="psm layout-horizontal" style="background-color: #E3F2E3;">
+      			<at-carbon-icon icon="now:checkmark" class="" style="color: #43A942;"></at-carbon-icon>
+      			<div class="plsm font-caption" style="margin-top: 2px;">
+      				{{message}}
+      			</div>
+      		</div>
+        {% elsif declined == true %}
+        	<div class="psm layout-horizontal" style="background-color: #f2e2e2;">
+      			<at-carbon-icon icon="now:cancel" class="" style="color: #a84141;"></at-carbon-icon>
+      			<div class="plsm font-caption" style="margin-top: 2px;">
+      				{{message}}
+      			</div>
+      		</div>
+      	{% endif %}
+      </div>
+
+      <style>
+      .aprroval-caret-icon {
+        width: 12px;
+        height: 12px;
+      }
+      </style>
+    actionListeners:
+      - _all
+    modelRoot: state.model
+$meta:
+  cardId: 528
+  preview-mode: live
+  preview-container: item
+  search-term: 
+  service-url: 
+  preview-data: |-
+    {
+      "id": 1,
+      "title": "approval 1",
+      "description": "PTO Request",
+      "date": "2019-06-21T15:51:34.631Z"
+    }
+  xclass: 
+  xstyle: 
+  code: |-
+    action.initialize = function (state) {
+    	state.model.approved = false;
+      state.model.declined = false;
+      state.model.expanded = false;
+      state.model.message = "";  
+    }
+
+    action.quickApprove = function (evt) {
+    	evt.model.approved = true;
+      evt.model.declined = false;
+      evt.model.message = "Approving request..."; 
+    }
+
+    action.quickDecline = function (evt) {
+    	evt.model.declined = true;
+      evt.model.approved = false;  
+      evt.model.message = "Declining request...";  
+    }
+
+    action.expandBody = function (evt) {
+    	evt.model.expanded = !evt.model.expanded;
+    }
+rules: []
